@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <style>
+        dl{
+            margin: 30px;
+        }
+        dl dt,dd{
+            margin: 20px;
+        }
+        input{
+            width: 70px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Timer</h1>
+   <dl>
+        <dt>Hour</dt>
+        <dd>
+            <input type="number" placeholder="Hour" min="0" max="12" class="hours">
+        </dd>
+        <dt>Minute</dt>
+        <dd>
+            <input type="number" placeholder="Minute" min="0" max="60" class="mints">
+        </dd>
+        <dt>Second</dt>
+        <dd>
+            <input type="number" placeholder="Second" min="0" max="60" class="second">
+        </dd>
+   </dl>
+   <div>
+    <button id="strt">Start</button>
+    <button id="pause">Pause</button>
+    <button id="reset">reset</button>
+   </div>
+</body>
+<script>
+    function timerDisplay(){
+        let h = document.querySelector(".hours");
+        let m = document.querySelector(".mints") ;
+        let s = document.querySelector(".second")  
+
+        let strt = document.getElementById("strt");
+        let pause = document.getElementById("pause");
+        let reset = document.getElementById("reset");
+
+        let startInterval;
+        strt.addEventListener("click",()=>{
+            let hValue = h.value;
+            let mValue = m.value;
+            let sValue = s.value;
+            startInterval=setInterval(()=>{
+                if(sValue<=0 || sValue==undefined){
+                    sValue=60;
+                }
+                sValue--
+                s.value=sValue;
+                if(sValue==0){
+                    // console.log( s.value);
+                    if(mValue>0){
+                        sValue=60;
+                        mValue--;
+                        s.value=sValue;
+                        m.value=mValue;
+                        if(mValue==0){
+                            if(hValue>0){
+                                mValue=60;
+                                hValue--;
+                                m.value=mValue;
+                                h.value=hValue;
+                                // console.log("In H");
+                            }
+                            // else{
+                            //     console.log("Else H");
+                            //     clearInterval(startInterval); 
+                            // }
+                        }
+                    }
+                    else{
+                        clearInterval(startInterval);
+                    }
+                }
+
+            },1000)
+        })
+        pause.addEventListener("click",()=>{
+            clearInterval(startInterval);
+        })
+        reset.addEventListener("click",()=>{
+            clearInterval(startInterval);
+            h.value="";
+            m.value="";
+            s.value="";
+        })
+    }
+    timerDisplay()
+</script>
+</html>
